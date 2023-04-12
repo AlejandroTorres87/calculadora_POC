@@ -19,12 +19,16 @@ public class CalculatorController {
 	
 	@GetMapping("/pocOperation")
 	public Calculation pocGetOperation(Calculation operation,BindingResult result) {
-		
 		if(result.hasErrors()) {
 			operation.getMessages().add(result.getAllErrors().get(0).toString());
 			return operation;
+		}else if(operation.getFirstOperand() == null ||  operation.getSecondOperand() == null || operation.getOperationType() == null) {
+			operation.getMessages().add("NOT NULL VALUES");
+			return operation;
 		}
-		
+		operation.getMessages().forEach(message->{
+			logTracer.logEvent(message);
+		});
 		operationExecService.execute(operation);
 		return operation;
 	}
@@ -32,6 +36,13 @@ public class CalculatorController {
 	
 	@PostMapping("/pocOperation")
 	public Calculation pocOperation(Calculation operation,BindingResult result) {
+		if(result.hasErrors()) {
+			operation.getMessages().add(result.getAllErrors().get(0).toString());
+			return operation;
+		}else if(operation.getFirstOperand() == null ||  operation.getSecondOperand() == null || operation.getOperationType() == null) {
+			operation.getMessages().add("NOT NULL VALUES");
+			return operation;
+		}
 		operation.getMessages().forEach(message->{
 			logTracer.logEvent(message);
 		});
