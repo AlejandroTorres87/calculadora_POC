@@ -15,6 +15,8 @@ public class Calculation {
 	
 	private Integer resultInteger;
 	
+	private List<String> messages = new ArrayList();
+	
 	public float getResultFloat() {
 		return resultFloat;
 	}
@@ -30,10 +32,6 @@ public class Calculation {
 	public void setResultInteger(Integer result) {
 		this.resultInteger = result;
 	}
-
-	private List<String> messages = new ArrayList();
-
-
 
 	public List<String> getMessages() {
 		return messages;
