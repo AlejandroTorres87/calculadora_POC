@@ -11,14 +11,24 @@ public class Calculation {
 	
 	private String operationType;
 	
-	private Integer result;
+	private float resultFloat;
 	
-	public Integer getResult() {
-		return result;
+	private Integer resultInteger;
+	
+	public float getResultFloat() {
+		return resultFloat;
 	}
 
-	public void setResult(Integer result) {
-		this.result = result;
+	public void setResultFloat(float result) {
+		this.resultFloat = result;
+	}
+	
+	public Integer getResultInteger() {
+		return resultInteger;
+	}
+
+	public void setResultInteger(Integer result) {
+		this.resultInteger = result;
 	}
 
 	private List<String> messages = new ArrayList();

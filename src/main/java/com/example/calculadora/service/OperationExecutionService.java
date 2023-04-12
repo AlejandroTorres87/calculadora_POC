@@ -11,7 +11,6 @@ public class OperationExecutionService implements IOperationExecution {
 		private final String MULTIPLICACION = "MULTIPLY";
 		private final String DIVISION = "DIVIDE";
 		
-	
 	public Calculation	execute(Calculation calculation) {
 		if (calculation.getOperationType().isEmpty() ||  calculation.getOperationType().isEmpty() || calculation.getOperationType() == null ) {
 			calculation.getMessages().add("El tipo de operación no puede estar vacío, vuelve a intentarlo.");
@@ -28,6 +27,12 @@ public class OperationExecutionService implements IOperationExecution {
 				case RESTA:{
 					executeSubstract(calculation);
 				}break;
+				case MULTIPLICACION:{
+					executeMultiply(calculation);
+				}break;
+				case DIVISION:{
+					executeDivide(calculation);
+				}break;
 				default:{
 					setInfoMessage(calculation,false);
 				}break;
@@ -36,23 +41,39 @@ public class OperationExecutionService implements IOperationExecution {
 		return calculation;
 		
 	}
-		
+
 	@Override
 	public void executeAdd(Calculation calculation) {
-		calculation.setResult(calculation.getFirstOperand()+calculation.getSecondOperand());
+		calculation.setResultInteger(calculation.getFirstOperand()+calculation.getSecondOperand());
 		setInfoMessage(calculation,true);
 	}
 	
 	@Override
 	public void executeSubstract(Calculation calculation) {
-		calculation.setResult(calculation.getFirstOperand()-calculation.getSecondOperand());
+		calculation.setResultInteger(calculation.getFirstOperand()-calculation.getSecondOperand());
 		setInfoMessage(calculation,true);
 	}
 
+	@Override
+	public void executeMultiply(Calculation calculation) {
+		calculation.setResultInteger(calculation.getFirstOperand()*calculation.getSecondOperand());
+		setInfoMessage(calculation,true);
+	}
+
+	@Override
+	public void executeDivide(Calculation calculation) {
+		calculation.setResultFloat((float) calculation.getFirstOperand()/ (float) calculation.getSecondOperand());
+		setInfoMessage(calculation,true);
+	}
 	
 	private void setInfoMessage(Calculation calculation,boolean exito) {
 		if (exito) {
-			calculation.getMessages().add("La operación se ha realizado con éxito, el resultado es:" + calculation.getResult());
+			if(calculation.getOperationType().equals(DIVISION)) {
+				calculation.getMessages().add("La operación se ha realizado con éxito, el resultado es: "+calculation.getResultFloat());
+			}else{
+				calculation.getMessages().add("La operación se ha realizado con éxito, el resultado es: "+calculation.getResultInteger());
+			}
+			
 		}else {
 			calculation.getMessages().add("La operación solicitada no está contemplada, los valores aceptados son: ADD (sumar) y SUBTRACT (restar)");
 		}
